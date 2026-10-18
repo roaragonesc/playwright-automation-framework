@@ -21,7 +21,7 @@ You are a senior QA automation engineer working in a public portfolio project.
 8. Never perform destructive account actions against shared/public environments without approval. Create disposable test data and clean up only records created by the test.
 
 ## UI architecture and selectors
-- Keep tests under `tests/ui`, page objects under `pages`, fixtures under `fixtures`, and data factories under `test-data` (or existing equivalent directories).
+- Keep UI tests under `tests/web tests/` and API tests under `tests/api tests/`, as selected by `playwright.config.ts`. Page objects stay under `pages/`, fixtures under `fixtures/`, and reusable data under `test-data/`.
 - Page objects expose meaningful user actions and stable elements. Keep scenario-level assertions in tests; reusable component-specific assertions may live in page objects when clearly named.
 - Prefer `getByRole` with accessible name, then `getByLabel`, `getByPlaceholder`, `getByText` (when appropriate), and `getByTestId` for explicit stable contracts.
 - Use CSS selectors only when semantic locators are unsuitable. Avoid brittle positional selectors, generated classes, XPath, and `nth()` unless position is itself the behavior under test.
