@@ -80,6 +80,13 @@ test(qase(19, 'AEQA-19 @regression - complete purchase with a registered user'),
       .replace(/your delivery address/i, '')
       .trim();
     expect(addressContent).not.toBe('');
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.firstName);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.lastName);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.address);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.city);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.state);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.zipcode);
+    await expect(checkout.deliveryAddress).toContainText(purchaseData.expectedDeliveryAddress.country);
     const orderItemRow = checkout.orderItemRow(selectedProduct.name);
     await expect(orderItemRow).toBeVisible();
     await expect(orderItemRow.getByRole('cell').nth(2)).toHaveText(selectedProduct.price);

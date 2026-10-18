@@ -1,4 +1,15 @@
 {
     "emailEnv": "E2E_TEST_USER_EMAIL",
-    "passwordEnv": "E2E_TEST_USER_PASSWORD"
+    "passwordEnv": "E2E_TEST_USER_PASSWORD",
+    "firstName": "REPLACE_WITH_REGISTERED_FIRST_NAME",
+    "lastName": "REPLACE_WITH_REGISTERED_LAST_NAME",
+    "expectedDeliveryAddress": {
+        "firstName": "REPLACE_WITH_REGISTERED_FIRST_NAME",
+        "lastName": "REPLACE_WITH_REGISTERED_LAST_NAME",
+        "address": "REPLACE_WITH_REGISTERED_ADDRESS",
+        "city": "REPLACE_WITH_REGISTERED_CITY",
+        "state": "REPLACE_WITH_REGISTERED_STATE",
+        "zipcode": "REPLACE_WITH_REGISTERED_ZIPCODE",
+        "country": "REPLACE_WITH_REGISTERED_COUNTRY"
+    }
 }

@@ -35,7 +35,7 @@ export default defineConfig({
   projects: [
     {
       name: 'ui-chrome',
-      testMatch: '**/ui/**/*.spec.ts',
+      testMatch: '**/web tests/**/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
@@ -46,8 +46,20 @@ export default defineConfig({
     },
 
     {
+      name: 'ui-edge',
+      testMatch: '**/web tests/**/*.spec.ts',
+      use: {
+        ...devices['Desktop Edge'],
+        channel: 'msedge',
+        baseURL:
+          process.env.UI_BASE_URL ||
+          'https://automationexercise.com',
+      },
+    },
+
+    {
       name: 'api',
-      testMatch: '**/api/**/*.spec.ts',
+      testMatch: '**/api tests/**/*.spec.ts',
       use: {
         baseURL:
           process.env.API_BASE_URL ||

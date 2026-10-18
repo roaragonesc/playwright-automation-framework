@@ -1,5 +1,6 @@
 import type {
   AEQA19TestData,
+  AEQA20TestData,
   DeliveryAddressData,
   RegisteredUserData,
   SyntheticPaymentData,
@@ -23,12 +24,27 @@ function requireString(record: JsonRecord, key: string, path: string): string {
   return value.trim();
 }
 
+function requireConfiguredDataString(record: JsonRecord, key: string, path: string): string {
+  const value = requireString(record, key, path);
+  if (/^(REPLACE_WITH|__.*__|<.*>)/i.test(value)) {
+    throw new Error(
+      `[TestData] Replace placeholder ${path}.${key} with the exact synthetic test-account value before running AEQA-19.`
+    );
+  }
+  return value;
+}
+
 function validateAddress(value: unknown, path: string): DeliveryAddressData {
   const address = requireRecord(value, path);
-  if (address.source !== 'registered-account' || address.assertion !== 'visible') {
-    throw new Error(`[TestData] ${path} must source the address from the registered account and assert visibility.`);
-  }
-  return { source: 'registered-account', assertion: 'visible' };
+  return {
+    firstName: requireConfiguredDataString(address, 'firstName', path),
+    lastName: requireConfiguredDataString(address, 'lastName', path),
+    address: requireConfiguredDataString(address, 'address', path),
+    city: requireConfiguredDataString(address, 'city', path),
+    state: requireConfiguredDataString(address, 'state', path),
+    zipcode: requireConfiguredDataString(address, 'zipcode', path),
+    country: requireConfiguredDataString(address, 'country', path),
+  };
 }
 
 function validateUser(value: unknown, path: string): RegisteredUserData {
@@ -41,6 +57,8 @@ function validateUser(value: unknown, path: string): RegisteredUserData {
   return {
     email,
     password: requireString(user, 'password', path),
+    firstName: requireConfiguredDataString(user, 'firstName', path),
+    lastName: requireConfiguredDataString(user, 'lastName', path),
   };
 }
 
@@ -113,6 +131,64 @@ export const validateAEQA19TestData: TestDataValidator<AEQA19TestData> = (value,
     payment: validatePayment(root.payment, `${sourcePath}.payment`),
     expected: {
       confirmationMessage: requireString(expected, 'confirmationMessage', `${sourcePath}.expected`),
+    },
+  };
+};
+
+export const validateAEQA20TestData: TestDataValidator<AEQA20TestData> = (value, sourcePath) => {
+  const root = requireRecord(value, sourcePath);
+  if (root.caseId !== 20) {
+    throw new Error(`[TestData] ${sourcePath}.caseId must be 20 for AEQA-20.`);
+  }
+
+  const user = requireRecord(root.user, `${sourcePath}.user`);
+  if (user.authenticated !== false) {
+    throw new Error(`[TestData] ${sourcePath}.user.authenticated must be false.`);
+  }
+
+  const contactForm = requireRecord(root.contactForm, `${sourcePath}.contactForm`);
+  const attachment = requireRecord(root.attachment, `${sourcePath}.attachment`);
+  const expected = requireRecord(root.expected, `${sourcePath}.expected`);
+  if (root.suite !== 'regression' || root.testType !== 'e2e') {
+    throw new Error(`[TestData] ${sourcePath} must be a regression E2E case.`);
+  }
+  if (attachment.mimeType !== 'text/plain') {
+    throw new Error(`[TestData] ${sourcePath}.attachment.mimeType must be text/plain.`);
+  }
+  if (expected.confirmationDialog !== true || expected.returnToHomepage !== true) {
+    throw new Error(`[TestData] ${sourcePath}.expected must require confirmation and return to homepage.`);
+  }
+
+  const baseUrl = requireString(root, 'baseUrl', sourcePath);
+  try {
+    new URL(baseUrl);
+  } catch {
+    throw new Error(`[TestData] ${sourcePath}.baseUrl must be a valid URL.`);
+  }
+
+  return {
+    caseId: 20,
+    scenario: requireString(root, 'scenario', sourcePath),
+    suite: 'regression',
+    testType: 'e2e',
+    baseUrl,
+    user: { authenticated: false },
+    contactForm: {
+      name: requireString(contactForm, 'name', `${sourcePath}.contactForm`),
+      email: requireString(contactForm, 'email', `${sourcePath}.contactForm`),
+      subject: requireString(contactForm, 'subject', `${sourcePath}.contactForm`),
+      message: requireString(contactForm, 'message', `${sourcePath}.contactForm`),
+    },
+    attachment: {
+      fileName: requireString(attachment, 'fileName', `${sourcePath}.attachment`),
+      content: requireString(attachment, 'content', `${sourcePath}.attachment`),
+      mimeType: 'text/plain',
+    },
+    expected: {
+      pageHeading: requireString(expected, 'pageHeading', `${sourcePath}.expected`),
+      confirmationDialog: true,
+      successMessage: requireString(expected, 'successMessage', `${sourcePath}.expected`),
+      returnToHomepage: true,
     },
   };
 };

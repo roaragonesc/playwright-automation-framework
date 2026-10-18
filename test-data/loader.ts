@@ -116,10 +116,15 @@ export async function loadTestData<T>(
   relativePath: string,
   validate: TestDataValidator<T>
 ): Promise<T> {
-  const absolutePath = resolve(DATA_ROOT, relativePath);
-  assertInsideDataRoot(absolutePath, relativePath);
+  const absolutePath = resolveTestDataPath(relativePath);
 
   const parsed = await readJson(absolutePath);
   const resolved = await resolveReferences(parsed, absolutePath, new Set());
   return validate(resolved, relativePath);
+}
+
+export function resolveTestDataPath(relativePath: string): string {
+  const absolutePath = resolve(DATA_ROOT, relativePath);
+  assertInsideDataRoot(absolutePath, relativePath);
+  return absolutePath;
 }

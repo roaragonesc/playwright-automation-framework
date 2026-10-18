@@ -1,0 +1,27 @@
+{
+    "caseId": 20,
+    "scenario": "submit-contact-form-with-attachment",
+    "suite": "regression",
+    "testType": "e2e",
+    "baseUrl": "https://automationexercise.com",
+    "user": {
+        "authenticated": false
+    },
+    "contactForm": {
+        "name": "QA Automation Tester",
+        "email": "qa.contact@example.com",
+        "subject": "Automated E2E Contact Form Test",
+        "message": "This is an automated regression test to verify the Contact Us form submission with a file attachment."
+    },
+    "attachment": {
+        "fileName": "contact-test.txt",
+        "content": "Automation Exercise E2E test attachment.",
+        "mimeType": "text/plain"
+    },
+    "expected": {
+        "pageHeading": "GET IN TOUCH",
+        "confirmationDialog": true,
+        "successMessage": "Success! Your details have been submitted successfully.",
+        "returnToHomepage": true
+    }
+}
