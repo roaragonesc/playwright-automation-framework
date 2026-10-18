@@ -1,4 +1,3 @@
-
 name: Playwright Tests - Qase
 
 on:
@@ -9,8 +8,7 @@ on:
     branches: [main]
 
   schedule:
-    # 01:00 UTC = 02:00 en invierno en España
-    # En verano serán las 03:00
+    # 01:00 UTC = 02:00 en invierno / 03:00 en verano (España peninsular)
     - cron: '0 1 * * *'
 
   workflow_dispatch:
@@ -63,7 +61,7 @@ jobs:
             echo "TEST_SUITE=smoke" >> "$GITHUB_ENV"
           fi
 
-      - name: Run Playwright tests
+      - name: Run Playwright tests and report to Qase
         env:
           CI: 'true'
           QASE_MODE: testops
