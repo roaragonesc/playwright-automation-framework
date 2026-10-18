@@ -1,27 +1,90 @@
-name: Playwright Tests
+
+name: Playwright Tests - Qase
+
 on:
   push:
+    branches: [main]
+
   pull_request:
+    branches: [main]
+
+  schedule:
+    # 01:00 UTC = 02:00 en invierno en España
+    # En verano serán las 03:00
+    - cron: '0 1 * * *'
+
   workflow_dispatch:
+    inputs:
+      suite:
+        description: 'Suite de pruebas'
+        required: true
+        default: 'regression'
+        type: choice
+        options:
+          - smoke
+          - regression
+
+permissions:
+  contents: read
+
 jobs:
   test:
+    name: Chrome, Edge, API and Qase
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium
-      - run: npm run typecheck
-      - run: npm test
-      - uses: actions/upload-artifact@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chrome and Edge
+        run: npx playwright install --with-deps chrome msedge
+
+      - name: Select test suite
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_SUITE: ${{ inputs.suite }}
+        run: |
+          if [[ "$EVENT_NAME" == "schedule" ]]; then
+            echo "TEST_SUITE=regression" >> "$GITHUB_ENV"
+          elif [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            echo "TEST_SUITE=${REQUESTED_SUITE}" >> "$GITHUB_ENV"
+          else
+            echo "TEST_SUITE=smoke" >> "$GITHUB_ENV"
+          fi
+
+      - name: Run Playwright tests
+        env:
+          CI: 'true'
+          QASE_MODE: testops
+          QASE_TESTOPS_API_TOKEN: ${{ secrets.QASE_API_TOKEN }}
+          QASE_TESTOPS_PROJECT: AEQA
+        run: npx playwright test --grep "@${TEST_SUITE}"
+
+      - name: Upload Playwright HTML report
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: |
-            playwright-report/
-            test-results/
+          path: playwright-report/
           retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-test-results
+          path: test-results/
+          retention-days: 7
+          if-no-files-found: ignore
