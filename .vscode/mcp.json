@@ -1,0 +1,21 @@
+{
+  "servers": {
+    "qase-reader": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/tools/qase-mcp/server.mjs"],
+      "env": {
+        "QASE_READER_TOKEN": "${input:qase-reader-token}",
+        "QASE_PROJECT_CODE": "AEQA"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "qase-reader-token",
+      "type": "promptString",
+      "description": "Token privado de Qase para leer casos (no se guarda en el repositorio)",
+      "password": true
+    }
+  ]
+}

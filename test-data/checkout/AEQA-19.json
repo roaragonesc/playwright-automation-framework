@@ -1,0 +1,27 @@
+{
+    "caseId": 19,
+    "scenario": "complete-purchase-registered-user",
+    "user": { "$ref": "../users/registered-e2e-user.json" },
+    "product": {
+        "selectionStrategy": { "$ref": "../products/available-product.json#/selectionStrategy" },
+        "quantity": 1
+    },
+    "expectedDeliveryAddress": {
+        "source": "registered-account",
+        "assertion": "visible"
+    },
+    "order": {
+        "comment": "Automated E2E regression test"
+    },
+    "payment": {
+        "classification": "synthetic-demo-only",
+        "cardholderName": "QA Tester",
+        "cardNumber": "4111111111111111",
+        "expiryMonth": "12",
+        "expiryYear": "2030",
+        "cvv": "123"
+    },
+    "expected": {
+        "confirmationMessage": "Congratulations! Your order has been confirmed!"
+    }
+}

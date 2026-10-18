@@ -1,7 +1,15 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export class BasePage {
-  constructor(public readonly page: Page) {}
+  public readonly page: Page;
+  protected readonly consentButton: Locator;
+  protected readonly consentOverlay: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.consentButton = page.getByRole('button', { name: /^(Consent|Consentir)$/i });
+    this.consentOverlay = page.locator('.fc-dialog-overlay, .fc-consent-root');
+  }
 
   async open(path: string = '/') {
     await this.page.goto(path);
@@ -9,10 +17,9 @@ export class BasePage {
   }
 
   async acceptConsentIfVisible() {
-    const consentButton = this.page.getByRole('button', { name: /^Consent$/i });
-    if (await consentButton.isVisible().catch(() => false)) {
-      await consentButton.click();
-      await this.page.locator('.fc-dialog-overlay, .fc-consent-root').waitFor({ state: 'hidden', timeout: 15000 }).catch(() => undefined);
+    if (await this.consentButton.isVisible().catch(() => false)) {
+      await this.consentButton.click();
+      await this.consentOverlay.waitFor({ state: 'hidden', timeout: 15000 }).catch(() => undefined);
     }
   }
 }

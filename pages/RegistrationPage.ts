@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export interface AccountDetails {
@@ -18,30 +18,63 @@ export interface AccountDetails {
 }
 
 export class RegistrationPage extends BasePage {
-  constructor(page: Page) { super(page); }
+  private readonly maleRadio: Locator;
+  private readonly femaleRadio: Locator;
+  private readonly passwordInput: Locator;
+  private readonly birthDay: Locator;
+  private readonly birthMonth: Locator;
+  private readonly birthYear: Locator;
+  private readonly firstName: Locator;
+  private readonly lastName: Locator;
+  private readonly company: Locator;
+  private readonly address: Locator;
+  private readonly city: Locator;
+  private readonly state: Locator;
+  private readonly zipcode: Locator;
+  private readonly mobileNumber: Locator;
+  private readonly createAccountButton: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.maleRadio = page.locator('#id_gender1');
+    this.femaleRadio = page.locator('#id_gender2');
+    this.passwordInput = page.locator('#password');
+    this.birthDay = page.locator('#days');
+    this.birthMonth = page.locator('#months');
+    this.birthYear = page.locator('#years');
+    this.firstName = page.locator('#first_name');
+    this.lastName = page.locator('#last_name');
+    this.company = page.locator('#company');
+    this.address = page.locator('#address1');
+    this.city = page.locator('#city');
+    this.state = page.locator('#state');
+    this.zipcode = page.locator('#zipcode');
+    this.mobileNumber = page.locator('#mobile_number');
+    this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
+  }
 
   async fillAccountDetails(details: AccountDetails) {
     if (details.title === 'Mr.') {
-      await this.page.locator('#id_gender1').check();
+      await this.maleRadio.check();
     } else {
-      await this.page.locator('#id_gender2').check();
+      await this.femaleRadio.check();
     }
 
-    await this.page.locator('#password').fill(details.password);
-    await this.page.locator('#days').selectOption(details.day);
-    await this.page.locator('#months').selectOption(details.month);
-    await this.page.locator('#years').selectOption(details.year);
-    await this.page.locator('#first_name').fill(details.firstName);
-    await this.page.locator('#last_name').fill(details.lastName);
-    await this.page.locator('#company').fill(details.company);
-    await this.page.locator('#address1').fill(details.address);
-    await this.page.locator('#city').fill(details.city);
-    await this.page.locator('#state').fill(details.state);
-    await this.page.locator('#zipcode').fill(details.zipcode);
-    await this.page.locator('#mobile_number').fill(details.mobileNumber);
+    await this.passwordInput.fill(details.password);
+    await this.birthDay.selectOption(details.day);
+    await this.birthMonth.selectOption(details.month);
+    await this.birthYear.selectOption(details.year);
+    await this.firstName.fill(details.firstName);
+    await this.lastName.fill(details.lastName);
+    await this.company.fill(details.company);
+    await this.address.fill(details.address);
+    await this.city.fill(details.city);
+    await this.state.fill(details.state);
+    await this.zipcode.fill(details.zipcode);
+    await this.mobileNumber.fill(details.mobileNumber);
   }
 
   async createAccount() {
-    await this.page.getByRole('button', { name: 'Create Account' }).click();
+    await this.createAccountButton.click();
   }
 }

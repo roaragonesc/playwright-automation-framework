@@ -45,7 +45,7 @@ npm run test:report
 - `test:api`: HTTP tests against the demo's documented API.
 - `test:report`: open the HTML test report after execution.
 
-**Configuration:** `playwright.config.ts` defines two projects (`ui-chromium`, `api`), retries in CI, reports and failure evidence. `.env.example` contains optional URL overrides. To customize, copy `.env.example` to `.env` (do not commit `.env`).
+**Configuration:** `playwright.config.ts` defines two projects (`ui-chrome`, `api`), retries in CI, reports and failure evidence. UI tests run in Chrome; API tests remain HTTP-only. `.env.example` contains optional URL overrides. To customize, copy `.env.example` to `.env` (do not commit `.env`).
 
 ```powershell
 Copy-Item .env.example .env

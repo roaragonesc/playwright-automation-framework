@@ -1,8 +1,28 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class LoginPage extends BasePage {
-  constructor(page: Page) { super(page); }
+  private readonly loginEmail: Locator;
+  private readonly loginPassword: Locator;
+  private readonly loginButton: Locator;
+  private readonly signupName: Locator;
+  private readonly signupEmail: Locator;
+  private readonly signupButton: Locator;
+  private readonly logoutLink: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    const loginForm = page.locator('form')
+      .filter({ has: page.getByRole('button', { name: 'Login' }) })
+      .first();
+    this.loginEmail = loginForm.getByRole('textbox', { name: 'Email Address' });
+    this.loginPassword = loginForm.getByRole('textbox', { name: 'Password' });
+    this.loginButton = loginForm.getByRole('button', { name: 'Login' });
+    this.signupName = page.locator('[data-qa="signup-name"]');
+    this.signupEmail = page.locator('[data-qa="signup-email"]');
+    this.signupButton = page.locator('[data-qa="signup-button"]');
+    this.logoutLink = page.getByRole('link', { name: 'Logout' });
+  }
 
   async goToLoginPage() {
     await this.page.goto('/login');
@@ -10,19 +30,18 @@ export class LoginPage extends BasePage {
   }
 
   async login(email: string, password: string) {
-    const loginForm = this.page.locator('form').filter({ has: this.page.getByRole('button', { name: 'Login' }) }).first();
-    await loginForm.getByRole('textbox', { name: 'Email Address' }).fill(email);
-    await loginForm.getByRole('textbox', { name: 'Password' }).fill(password);
-    await loginForm.getByRole('button', { name: 'Login' }).click();
+    await this.loginEmail.fill(email);
+    await this.loginPassword.fill(password);
+    await this.loginButton.click();
   }
 
   async register(name: string, email: string) {
-    await this.page.locator('[data-qa="signup-name"]').fill(name);
-    await this.page.locator('[data-qa="signup-email"]').fill(email);
-    await this.page.locator('[data-qa="signup-button"]').click({ force: true });
+    await this.signupName.fill(name);
+    await this.signupEmail.fill(email);
+    await this.signupButton.click({ force: true });
   }
 
   async logout() {
-    await this.page.getByRole('link', { name: 'Logout' }).click();
+    await this.logoutLink.click();
   }
 }

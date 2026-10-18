@@ -1,0 +1,4 @@
+{
+    "emailEnv": "E2E_TEST_USER_EMAIL",
+    "passwordEnv": "E2E_TEST_USER_PASSWORD"
+}

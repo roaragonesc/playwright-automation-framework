@@ -46,18 +46,6 @@ export default defineConfig({
     },
 
     {
-      name: 'ui-edge',
-      testMatch: '**/ui/**/*.spec.ts',
-      use: {
-        ...devices['Desktop Edge'],
-        channel: 'msedge',
-        baseURL:
-          process.env.UI_BASE_URL ||
-          'https://automationexercise.com',
-      },
-    },
-
-    {
       name: 'api',
       testMatch: '**/api/**/*.spec.ts',
       use: {
