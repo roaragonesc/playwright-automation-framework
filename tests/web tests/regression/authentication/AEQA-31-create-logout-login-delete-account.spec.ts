@@ -33,7 +33,7 @@ test.afterEach(async ({ home, login, registration }) => {
   await expect(registration.accountDeletedMessage).toBeVisible();
 });
 
-test(qase(31, 'Create an account, log out, log back in, and delete it'), async ({
+test(qase(31, 'AEQA-31 @regression - create an account, log out, log back in, and delete it'), async ({
   home,
   login,
   registration,
