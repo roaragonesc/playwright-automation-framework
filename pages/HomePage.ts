@@ -8,6 +8,7 @@ export class HomePage extends BasePage {
   readonly homeLink: Locator;
   readonly contactUsLink: Locator;
   readonly interstitialClose: Locator;
+  readonly deleteAccountLink: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -17,6 +18,7 @@ export class HomePage extends BasePage {
     this.homeLink = page.getByRole('link', { name: /Home/i }).first();
     this.contactUsLink = page.getByRole('link', { name: /Contact Us/i });
     this.interstitialClose = page.getByText('Close', { exact: true });
+    this.deleteAccountLink = page.getByRole('link', { name: 'Delete Account' });
   }
 
   async open() {
@@ -44,9 +46,17 @@ export class HomePage extends BasePage {
   }
 
   async goToHome() {
+    await this.closeInterstitialIfVisible();
+    await this.homeLink.click();
+  }
+
+  async closeInterstitialIfVisible() {
     if (await this.interstitialClose.isVisible().catch(() => false)) {
       await this.interstitialClose.click();
     }
-    await this.homeLink.click();
+  }
+
+  async deleteAccount() {
+    await this.deleteAccountLink.click();
   }
 }

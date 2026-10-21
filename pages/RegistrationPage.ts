@@ -33,6 +33,10 @@ export class RegistrationPage extends BasePage {
   private readonly zipcode: Locator;
   private readonly mobileNumber: Locator;
   private readonly createAccountButton: Locator;
+  private readonly continueButton: Locator;
+  readonly accountInformationHeading: Locator;
+  readonly accountCreatedHeading: Locator;
+  readonly accountDeletedMessage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -51,6 +55,10 @@ export class RegistrationPage extends BasePage {
     this.zipcode = page.locator('#zipcode');
     this.mobileNumber = page.locator('#mobile_number');
     this.createAccountButton = page.getByRole('button', { name: 'Create Account' });
+    this.continueButton = page.getByRole('link', { name: 'Continue' });
+    this.accountInformationHeading = page.getByRole('heading', { name: 'ENTER ACCOUNT INFORMATION' });
+    this.accountCreatedHeading = page.getByRole('heading', { name: /account created/i });
+    this.accountDeletedMessage = page.getByText(/account deleted/i).first();
   }
 
   async fillAccountDetails(details: AccountDetails) {
@@ -76,5 +84,9 @@ export class RegistrationPage extends BasePage {
 
   async createAccount() {
     await this.createAccountButton.click();
+  }
+
+  async continueAfterAccountCreated() {
+    await this.continueButton.click();
   }
 }

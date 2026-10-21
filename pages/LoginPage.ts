@@ -9,6 +9,8 @@ export class LoginPage extends BasePage {
   private readonly signupEmail: Locator;
   private readonly signupButton: Locator;
   private readonly logoutLink: Locator;
+  readonly loginHeading: Locator;
+  readonly signupHeading: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -18,6 +20,8 @@ export class LoginPage extends BasePage {
     this.loginEmail = loginForm.getByRole('textbox', { name: 'Email Address' });
     this.loginPassword = loginForm.getByRole('textbox', { name: 'Password' });
     this.loginButton = loginForm.getByRole('button', { name: 'Login' });
+    this.loginHeading = page.getByRole('heading', { name: 'Login to your account' });
+    this.signupHeading = page.getByRole('heading', { name: 'New User Signup!' });
     this.signupName = page.locator('[data-qa="signup-name"]');
     this.signupEmail = page.locator('[data-qa="signup-email"]');
     this.signupButton = page.locator('[data-qa="signup-button"]');
@@ -38,7 +42,7 @@ export class LoginPage extends BasePage {
   async register(name: string, email: string) {
     await this.signupName.fill(name);
     await this.signupEmail.fill(email);
-    await this.signupButton.click({ force: true });
+    await this.signupButton.click();
   }
 
   async logout() {
