@@ -57,3 +57,26 @@ $env:QASE_MODE = 'off'
 npx playwright test 'TC-2-successful-checkout.spec.ts' --project=ui-chrome
 npx playwright test 'TC-2-successful-checkout.spec.ts' --project=ui-edge
 ```
+
+## SauceDemo cart management (Testiny TC-3)
+
+`saucedemo/cart.json` defines two distinct products with integer-cent prices and their
+combined price. Its validator rejects missing/invalid products, duplicates and an
+inconsistent sum. The product cart fixture supplies this data lazily and shares the
+cart/header Page Objects with the checkout fixture; no implicit login or navigation.
+
+TC-3 adds a backpack ($29.99) and bike light ($9.99), verifies both rows and their
+$39.98 combined price, removes the backpack by name and verifies the retained light,
+then removes the light. It checks that the empty cart survives reload, returns to
+the inventory, and logs out with a direct-inventory-access check. The cart does not
+display a subtotal: the assertion sums displayed unit prices for the two quantity-1
+rows. No checkout, order creation or payment occurs.
+
+The regression case is linked to Testiny project 1 / TC-3 and selected by TP-1's
+no-folder query. It is not published to Qase. With `SAUCEDEMO_PASSWORD` configured:
+
+```powershell
+$env:QASE_MODE = 'off'
+npx playwright test 'TC-3-cart-management.spec.ts' --project=ui-chrome
+npx playwright test 'TC-3-cart-management.spec.ts' --project=ui-edge
+```
