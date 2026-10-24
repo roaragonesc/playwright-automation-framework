@@ -1,0 +1,10 @@
+{
+  "products": [
+    { "name": "Sauce Labs Backpack", "unitPriceCents": 2999 },
+    { "name": "Sauce Labs Bike Light", "unitPriceCents": 999 }
+  ],
+  "expected": {
+    "cartPath": "/cart.html",
+    "combinedPriceCents": 3998
+  }
+}

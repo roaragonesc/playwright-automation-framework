@@ -19,13 +19,19 @@ export class ProductItem {
   async addToCart() {
     await this.addButton.click();
   }
+
+  async removeFromCart() {
+    await this.removeButton.click();
+  }
 }
 
 export class ProductList {
   readonly items: Locator;
+  readonly prices: Locator;
 
   constructor(private readonly page: Page) {
     this.items = page.locator('[data-test="inventory-item"]');
+    this.prices = this.items.locator('[data-test="inventory-item-price"]');
   }
 
   item(name: string): ProductItem {
