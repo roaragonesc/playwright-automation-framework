@@ -1,6 +1,6 @@
 import { test as uiTest, expect } from './ui.fixture';
-import { CheckoutPage } from '../pages/CheckoutPage';
-import { PaymentPage } from '../pages/PaymentPage';
+import { CheckoutPage } from '../pages/automation-exercise/CheckoutPage';
+import { PaymentPage } from '../pages/automation-exercise/PaymentPage';
 import { loadTestData } from '../test-data/loader';
 import { validateAEQA19TestData } from '../test-data/validation';
 import type { AEQA19TestData } from '../test-data/types';

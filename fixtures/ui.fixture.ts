@@ -1,9 +1,9 @@
 import { test as base, expect } from '@playwright/test';
-import { HomePage } from '../pages/HomePage';
-import { ProductsPage } from '../pages/ProductsPage';
-import { LoginPage } from '../pages/LoginPage';
-import { RegistrationPage } from '../pages/RegistrationPage';
-import { CartPage } from '../pages/CartPage';
+import { HomePage } from '../pages/automation-exercise/HomePage';
+import { ProductsPage } from '../pages/automation-exercise/ProductsPage';
+import { LoginPage } from '../pages/automation-exercise/LoginPage';
+import { RegistrationPage } from '../pages/automation-exercise/RegistrationPage';
+import { CartPage } from '../pages/automation-exercise/CartPage';
 
 type Pages = {
   home: HomePage;

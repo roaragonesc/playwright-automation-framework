@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
-import type { SyntheticPaymentData } from '../test-data/types';
+import type { SyntheticPaymentData } from '../../test-data/types';
 
 export class PaymentPage extends BasePage {
   readonly cardholderName: Locator;

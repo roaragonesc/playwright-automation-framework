@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { test as uiTest, expect } from './ui.fixture';
-import { ContactUsPage } from '../pages/ContactUsPage';
+import { ContactUsPage } from '../pages/automation-exercise/ContactUsPage';
 import { loadTestData, resolveTestDataPath } from '../test-data/loader';
 import { validateAEQA20TestData } from '../test-data/validation';
 import type { AEQA20TestData } from '../test-data/types';
