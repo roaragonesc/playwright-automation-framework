@@ -31,3 +31,29 @@ isolated browser context at teardown; it does not save or share the authenticate
 The separate Testiny workflow injects `SAUCEDEMO_PASSWORD` and `TESTINY_API_KEY` from GitHub
 Secrets. The Qase workflow selects only existing Automation Exercise regression and smoke
 paths so it does not publish SauceDemo to Qase or run it against the wrong product.
+
+## SauceDemo checkout (Testiny TC-2)
+
+`saucedemo/checkout.json` contains a named backpack, integer-cent prices and synthetic
+customer information. The checkout fixture extends the product fixture, reusing the
+existing login configuration without implicit navigation or shared storage state.
+The spec keeps scenario assertions; product Page Objects and the shared product-list
+component own interactions and selectors used by inventory, cart and overview.
+
+The authorized demo journey logs in, adds one backpack, verifies cart and checkout
+contents, checks the $29.99 subtotal, $2.40 tax and $32.39 calculated total, finishes
+the order, verifies confirmation and an empty cart, then logs out and verifies that
+direct inventory access redirects to login. It uses no real customer/payment data.
+Browser context teardown discards client-side state; it does not delete remote orders.
+
+TC-2 belongs to project 1 and is selected by TP-1's existing no-folder query. It is
+`@regression`, not a separate E2E suite and not a Qase case. The Testiny workflow
+discovers its numeric annotations without an additional workflow entry.
+
+Run just this case with `SAUCEDEMO_PASSWORD` configured:
+
+```powershell
+$env:QASE_MODE = 'off'
+npx playwright test 'TC-2-successful-checkout.spec.ts' --project=ui-chrome
+npx playwright test 'TC-2-successful-checkout.spec.ts' --project=ui-edge
+```

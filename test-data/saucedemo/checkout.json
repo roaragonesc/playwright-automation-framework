@@ -1,0 +1,21 @@
+{
+  "product": {
+    "name": "Sauce Labs Backpack",
+    "unitPriceCents": 2999,
+    "quantity": 1
+  },
+  "customer": {
+    "firstName": "Automation",
+    "lastName": "Portfolio",
+    "postalCode": "28001"
+  },
+  "expected": {
+    "taxCents": 240,
+    "confirmation": "Thank you for your order!",
+    "dispatchMessage": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+    "cartPath": "/cart.html",
+    "informationPath": "/checkout-step-one.html",
+    "overviewPath": "/checkout-step-two.html",
+    "completePath": "/checkout-complete.html"
+  }
+}
