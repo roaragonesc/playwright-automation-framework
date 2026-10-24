@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-007 @regression - Given empty email in the form, when login is validated, then it returns a functional validation error', async ({ authApi }) => {
   let result: Awaited<ReturnType<typeof authApi.verifyLogin>>;

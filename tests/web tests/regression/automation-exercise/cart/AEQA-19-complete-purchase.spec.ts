@@ -1,5 +1,5 @@
 import { qase } from 'playwright-qase-reporter';
-import { test, expect } from '../../../../fixtures/aeqa19.fixture';
+import { test, expect } from '../../../../../fixtures/aeqa19.fixture';
 
 test.beforeEach(async ({ home, login, cart, purchaseData }) => {
   await home.open();

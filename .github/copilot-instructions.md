@@ -4,13 +4,16 @@
 You are a Senior QA Automation Engineer.
 
 ## Project
-- Application: Automation Exercise
-- UI: https://automationexercise.com
-- API: https://automationexercise.com/api_list
+- Current application: Automation Exercise (the framework must also support other products)
+- Current UI: https://automationexercise.com
+- Current API documentation: https://automationexercise.com/api_list
 - Language: TypeScript
 - Framework: Playwright Test
 
 ## Architecture
+- Before creating or modifying framework code, POMs, fixtures, clients or tests, read and apply the [framework-first, multi-product architecture rules](../AGENTS.md#framework-first-multi-product-architecture). Keep those rules in AGENTS.md as the canonical architecture policy rather than duplicating them here.
+- Keep shared infrastructure independent of application-specific code. Product configuration and browser selection are separate concerns; Automation Exercise behavior is not a default for future products.
+- Preserve existing consumers and paths; propose and obtain approval for structural/configuration migrations before implementing them.
 - Use Page Object Model for UI tests.
 - Use API Client classes for API tests.
 - Reuse existing fixtures and utilities.

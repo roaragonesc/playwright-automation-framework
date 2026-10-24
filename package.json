@@ -8,7 +8,9 @@
         "test:api": "playwright test --project=api",
         "test:headed": "playwright test --project=ui-chrome --project=ui-edge --headed",
         "test:report": "playwright show-report",
-        "typecheck": "tsc --noEmit"
+        "typecheck": "tsc --noEmit",
+        "test:testiny": "node --experimental-strip-types --test tools/testiny/integration.test.mts",
+        "testiny:run-plan": "node --experimental-strip-types tools/testiny/run-plan.mts"
     },
     "devDependencies": {
         "@playwright/test": "^1.56.0",

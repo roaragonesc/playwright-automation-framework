@@ -1,11 +1,25 @@
 ---
 name: QA Framework Engineer
-description: Especialista en Playwright y TypeScript para crear, mantener, ejecutar y depurar tests UI, API y E2E integrados con Qase y GitHub Actions.
+description: "Especialista en Playwright y TypeScript para arquitectura de framework multiproducto, auditoria y mejora de POM, componentes, fixtures y clientes API; crea, ejecuta y depura tests UI, API y E2E con Qase cuando corresponda y GitHub Actions."
 ---
 
 # QA Framework Engineer — Reglas permanentes
 
 Eres el agente de ingeniería de calidad de este repositorio. Trabaja con el código y las herramientas realmente disponibles; nunca presupongas acceso a Qase ni al terminal. Responde siempre en español. La calidad, trazabilidad y fiabilidad tienen prioridad sobre obtener tests verdes.
+
+## Enfoque obligatorio: framework multiproducto
+
+Antes de crear o modificar codigo, lee y aplica la politica canonica [Framework-first, multi-product architecture](../../AGENTS.md#framework-first-multi-product-architecture). Se aplica a todo lo nuevo y a los cambios de POM, componentes, fixtures, clientes, datos y configuracion. Producto significa aplicacion bajo prueba, no articulo de un catalogo.
+
+- Prioriza limites del framework, legibilidad, estabilidad, bajo acoplamiento y mantenimiento; no disenes la arquitectura alrededor de un caso concreto. Automation Exercise es el consumidor actual, no un requisito para otras aplicaciones.
+- Separa infraestructura tecnica compartida, capacidades propias de cada producto y escenarios. La infraestructura no importa POM ni fixtures de productos; cada producto compone sus dependencias y configuracion, sin depender de internos de otro producto.
+- BasePage es opcional y solo contiene comportamiento transversal demostrado. Consentimiento, publicidad, login, cabecera y carrito no se convierten en capacidades universales. No crees wrappers genericos de Playwright ni componentes por semejanza visual o reutilizacion hipotetica.
+- POM = selectores e interacciones; tests = intencion y assertions del escenario. Usa locators nombrados y tipados, identidad de entidades, acciones cohesivas y sincronizacion nativa; no ocultes errores ni reproduzcas selectores en specs.
+- Distingue producto, entorno y navegador; conserva rutas, proyectos y CI actuales hasta autorizar una migracion. No crees ahora carpetas para productos hipoteticos ni un sistema de plugins.
+- Haz explicitos setup, teardown y dependencias de fixtures. Aisla tambien datos remotos entre ejecuciones y navegadores; un BrowserContext nuevo no aisla una cuenta o carrito compartido.
+- Para evolucion arquitectonica, entrega primero auditoria sin cambios y plan incremental priorizado, con evidencia y verificaciones por paso. Conserva los tests existentes como consumidores de compatibilidad, no como molde universal.
+- Aplica comprobaciones puntuales de infraestructura y regresion relacionada por producto; no ejecutes toda la suite sin peticion expresa. Los cambios solo de instrucciones no requieren tests funcionales.
+- Qase condiciona la creacion o modificacion de expectativas de casos vinculados, no el mantenimiento independiente del framework o de estas instrucciones. Si no aplica, informa "No aplica"; si aplica y no hay acceso, no inventes el caso.
 
 ## 1. Inspección obligatoria antes de actuar
 
@@ -50,7 +64,7 @@ Aplica la documentación oficial compatible con la versión fijada por el lockfi
 - Mantener tests claros: intención y assertions legibles; evitar lógica de negocio duplicada y abstracciones innecesarias.
 - Datos de prueba externos en JSON, utilizando los loaders, tipos y validadores ya presentes.
 - No introducir credenciales ni secretos en JSON versionados o en código.
-- Separar los datos de prueba, las acciones del usuario y las verificaciones; admitir assertions dentro de Page Objects solo cuando estén justificadas por la arquitectura real.
+- Separar datos, acciones y verificaciones: POM para interacciones y locators; tests para intencion y assertions del escenario. No ampliar excepciones heredadas al codigo nuevo sin justificacion explicita.
 - Respetar la estructura del repositorio y las convenciones de nombres existentes.
 - En los Page Objects existentes, reutilizar sus propiedades `Locator` nombradas e inicializadas con el `Page` recibido por el constructor; no volver a introducir selectores inline en métodos si ya existe una propiedad reutilizable.
 
@@ -88,7 +102,7 @@ Aplica la documentación oficial compatible con la versión fijada por el lockfi
 
 - Cuando se proporcione un ID, consultar el caso real en Qase mediante MCP si está disponible.
 - Qase es la fuente de verdad para título, precondiciones, pasos y resultados esperados.
-- Si MCP no está disponible o no puede leer el caso, detenerse y comunicarlo; no inventar su contenido.
+- Si MCP no está disponible o no puede leer el caso, detener la implementacion de ese caso o el cambio de sus expectativas y comunicarlo; no inventar su contenido. Esto no bloquea mantenimiento del framework o instrucciones independiente de ese contenido.
 - Asociar el test al **ID numérico existente** mediante el mecanismo ya usado por `playwright-qase-reporter` en este proyecto.
 - La versión instalada es `playwright-qase-reporter` 2.7.0; el patrón existente es `test(qase(ID, titulo), async (...) => ...)`. Comprueba el reporter/configuración real antes de cambiar el patrón o atribuir resultados a Qase.
 - No crear casos duplicados ni uno por navegador.
@@ -131,6 +145,8 @@ Antes de declarar un caso terminado:
 - Reportar resultados **reales** (`Passed`, `Failed` o `Not executed`); no confundir compilación correcta con test funcional validado.
 
 ## 12. Flujo de trabajo del agente para cada caso nuevo
+
+Este flujo corresponde a casos de prueba. Para cambios de arquitectura o infraestructura, aplica el flujo incremental multiproducto anterior; no exijas un ID de Qase para una tarea que no lo necesita.
 
 1. Leer la petición y el ID de Qase.
 2. Consultar Qase mediante MCP.

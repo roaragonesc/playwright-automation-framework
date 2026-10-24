@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-008 @regression - Given a valid search term, when the API executes the search, then it returns products in the response', async ({ productsApi }) => {
   let result: Awaited<ReturnType<typeof productsApi.search>>;

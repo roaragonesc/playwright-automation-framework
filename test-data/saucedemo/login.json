@@ -1,0 +1,9 @@
+{
+  "baseUrl": "https://www.saucedemo.com/",
+  "username": "standard_user",
+  "passwordEnv": "SAUCEDEMO_PASSWORD",
+  "expected": {
+    "inventoryPath": "/inventory.html",
+    "productsTitle": "Products"
+  }
+}

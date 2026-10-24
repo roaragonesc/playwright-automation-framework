@@ -1,6 +1,6 @@
 import { qase } from 'playwright-qase-reporter';
-import { test, expect } from '../../../../fixtures/ui.fixture';
-import { createSyntheticRegistrationData } from '../../../../test-data/users/synthetic-registration';
+import { test, expect } from '../../../../../fixtures/ui.fixture';
+import { createSyntheticRegistrationData } from '../../../../../test-data/users/synthetic-registration';
 
 type SyntheticAccount = ReturnType<typeof createSyntheticRegistrationData>;
 

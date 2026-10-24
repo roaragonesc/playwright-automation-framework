@@ -1,5 +1,5 @@
 import { qase } from 'playwright-qase-reporter';
-import { test, expect } from '../../../../fixtures/aeqa20.fixture';
+import { test, expect } from '../../../../../fixtures/aeqa20.fixture';
 
 test(qase(20, 'AEQA-20 @regression - Submit Contact Form Successfully with File Attachment'), async ({
   home,
