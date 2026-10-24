@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-004 @regression - Given a search without parameter, when API processes the query, then it returns functional error 400', async ({ productsApi }) => {
   let result: Awaited<ReturnType<typeof productsApi.search>>;

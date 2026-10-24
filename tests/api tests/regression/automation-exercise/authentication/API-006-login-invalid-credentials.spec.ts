@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-006 @regression - Given invalid credentials, when login is validated, then it returns functional code 404', async ({ authApi }) => {
   let result: Awaited<ReturnType<typeof authApi.verifyLogin>>;

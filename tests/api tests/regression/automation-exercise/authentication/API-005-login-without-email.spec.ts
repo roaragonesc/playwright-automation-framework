@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-005 @regression - Given login without email, when API validates the request, then it returns functional code 400', async ({ authApi }) => {
   let result: Awaited<ReturnType<typeof authApi.verifyLogin>>;

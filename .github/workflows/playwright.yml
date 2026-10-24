@@ -69,7 +69,13 @@ jobs:
           QASE_MODE: testops
           QASE_TESTOPS_API_TOKEN: ${{ secrets.QASE_API_TOKEN }}
           QASE_TESTOPS_PROJECT: AEQA
-        run: npx playwright test --grep "@${TEST_SUITE}"
+        run: >-
+          npx playwright test
+          "web tests/regression/automation-exercise/"
+          "api tests/regression/automation-exercise/"
+          "web tests/smoke/"
+          "api tests/smoke/"
+          --grep "@${TEST_SUITE}"
 
       - name: Upload Playwright HTML report
         if: always()

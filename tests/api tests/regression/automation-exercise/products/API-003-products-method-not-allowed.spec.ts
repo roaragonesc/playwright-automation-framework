@@ -1,4 +1,4 @@
-import { test, expect } from '../../../../fixtures/api.fixture';
+import { test, expect } from '../../../../../fixtures/api.fixture';
 
 test('API-003 @regression - Given a POST request to products, when API receives it, then it returns functional code 405', async ({ productsApi }) => {
   let result: Awaited<ReturnType<typeof productsApi.unsupportedPost>>;
